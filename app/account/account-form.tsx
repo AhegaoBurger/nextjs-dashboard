@@ -130,13 +130,13 @@ export default function AccountForm({ user }: { user: User | null }) {
         </Button>
       </div>
 
-      <div>
+      {/* <div>
         <form action="/auth/signout" method="post">
           <Button className="Button block" type="submit">
             Sign out
           </Button>
         </form>
-      </div>
+      </div> */}
     </div>
   )
 }

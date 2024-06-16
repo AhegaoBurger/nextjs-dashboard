@@ -15,6 +15,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import Image from "next/image"
+// import React, { useEffect, useState, useCallback } from 'react'
+import Avatar from './(components)/Avatar'
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -28,22 +30,17 @@ export default async function RootLayout({
 }) {
   const supabase = createClient()
 
-  const { data, error } = await supabase.auth.getUser()
-  const user = data.user
-  console.log("The result of getUser is ", user)
-  
-	const userProfilePicId = await supabase
+	const { data, error } = await supabase.auth.getUser()
+	const user = data.user
+	// console.log("The result of getUser is ", user)
+
+  	const userProfilePicUrl = await supabase
 		.from('profiles')
 		.select(`avatar_url`)
 		.eq('id', user?.id)
 		.single()
 
-	console.log("The user profielPicId is ", userProfilePicId.data?.avatar_url)
-
-  const bucketData = await supabase.storage.from('avatars').list()
-  console.log("Bucket data is ", bucketData)
-
-  const profilePic = await supabase.storage.from('avatars').download(userProfilePicId.data?.avatar_url)
+	const avatarUrl = userProfilePicUrl.data?.avatar_url
 
   return (
     <html className='flex gap-2' lang="en">
@@ -92,13 +89,20 @@ export default async function RootLayout({
 							size="icon"
 							className="overflow-hidden rounded-full"
 						>
-						<Image
-						src="/placeholder-user.jpg"
-						width={36}
-						height={36}
-						alt="Avatar"
-						className="overflow-hidden rounded-full"
-						/>
+						{avatarUrl ? (
+							<Avatar
+								avatarUrl={avatarUrl}
+							/>
+						) : (
+							// <div className="avatar no-image" style={{ height: 36, width: 36 }} />
+							<Image
+								src="/public/placeholder-user.jpg"
+								width={36}
+								height={36}
+								alt="Avatar"
+								className="overflow-hidden rounded-full"
+							/>
+						)}
 						</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent align="end">
@@ -107,7 +111,13 @@ export default async function RootLayout({
 						<DropdownMenuItem>Settings</DropdownMenuItem>
 						<DropdownMenuItem>Support</DropdownMenuItem>
 						<DropdownMenuSeparator />
-						<DropdownMenuItem>Logout</DropdownMenuItem>
+						<DropdownMenuItem>
+							<form action="/auth/signout" method="post">
+								<Button variant='ghost' type="submit">
+									Sign out
+								</Button>
+							</form>
+           				</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
               </>
