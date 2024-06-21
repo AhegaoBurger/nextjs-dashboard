@@ -6,9 +6,6 @@ import { lusitana } from '@/app/ui/fonts';
 import Image from 'next/image';
 import { CirclePlus, CircleX, ChevronRight } from 'lucide-react';
 
-// Import the necessary styles globally
-import '@telegram-apps/telegram-ui/dist/styles.css';
-
 // Import components from the library
 import { AppRoot, Cell, List, Section, Tappable, Badge, Avatar, Button } from '@telegram-apps/telegram-ui';
 
@@ -17,7 +14,7 @@ const cellsTexts = ['Chat Settings', 'Data and Storage', 'Devices'];
 
 export default function Page() {
   return (
-    <AppRoot className='bg-gray-100 rounded-md'>
+    <div>
       <Cell
         className='rounded-md'
         after={<Button size='s' after={<ChevronRight />}>Free</Button>}
@@ -47,6 +44,6 @@ export default function Page() {
       size="s"
       
     />
-    </AppRoot>
+    </div>
   );
 }

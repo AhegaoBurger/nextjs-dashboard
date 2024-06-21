@@ -18,6 +18,15 @@ import Image from "next/image"
 // import React, { useEffect, useState, useCallback } from 'react'
 import Avatar from './(components)/Avatar'
 
+// Import the necessary styles globally
+import '@telegram-apps/telegram-ui/dist/styles.css';
+
+// Import components from the library
+import { AppRoot, Cell, List, Section, Tappable, Badge } from '@telegram-apps/telegram-ui';
+
+// Example data for rendering list cells
+const cellsTexts = ['Chat Settings', 'Data and Storage', 'Devices'];
+
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -43,92 +52,103 @@ export default async function RootLayout({
 	const avatarUrl = userProfilePicUrl.data?.avatar_url
 
   return (
-    <html className='flex gap-2' lang="en">
-      <head />
-      <body className={`${inter.className} antialiased`} style={{ paddingTop: '3.5rem' }}> {/* Adjust paddingTop to the height of your navbar */}      <nav className="fixed inset-x-0 top-0 z-50 bg-white shadow-sm dark:bg-gray-950/90">
-      <div className="w-full max-w-7xl mx-auto px-4">
-        <div className="flex justify-between h-14 items-center">
-          <Link href="/" className="flex items-center" prefetch={false}>
-            <MountainIcon className="h-6 w-6" />
-            <span className="sr-only">Acme Inc</span>
-          </Link>
-          <nav className="hidden md:flex gap-4">
-            <Link
-              href="/"
-              className="font-medium flex items-center text-sm transition-colors hover:underline"
-              prefetch={false}
-            >
-              Home
-            </Link>
-            <Link
-              href="/account"
-              className="font-medium flex items-center text-sm transition-colors hover:underline"
-              prefetch={false}
-            >
-              Account
-            </Link>
-          </nav>
-          <div className="flex items-center gap-4">
-            {!data?.user ? (
-              <>
-			  	<Link href="/login">
-				  	<Button variant="outline" size="sm">
-						Sign in
-					</Button>
-				</Link>
-				<Link href="/register">
-					<Button size="sm">Sign up</Button>
-				</Link>
-              </>
-            ) : (
-              <>
-                <DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button
-							variant="outline"
-							size="icon"
-							className="overflow-hidden rounded-full"
-						>
-						{avatarUrl ? (
-							<Avatar
-								avatarUrl={avatarUrl}
-							/>
-						) : (
-							// <div className="avatar no-image" style={{ height: 36, width: 36 }} />
-							<Image
-								src="/public/placeholder-user.jpg"
-								width={36}
-								height={36}
-								alt="Avatar"
-								className="overflow-hidden rounded-full"
-							/>
-						)}
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent align="end">
-						<DropdownMenuLabel>My Account</DropdownMenuLabel>
-						<DropdownMenuSeparator />
-						<DropdownMenuItem>Settings</DropdownMenuItem>
-						<DropdownMenuItem>Support</DropdownMenuItem>
-						<DropdownMenuSeparator />
-						<DropdownMenuItem>
-							<form action="/auth/signout" method="post">
-								<Button variant='ghost' type="submit">
-									Sign out
-								</Button>
-							</form>
-           				</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
-      </nav>
-        {children}
+    // <html className='flex gap-2' lang="en">
+    //   <head />
+    //   <AppRoot >
+    //   <body className={`${inter.className} antialiased`} style={{ paddingTop: '3.5rem' }}> {/* Adjust paddingTop to the height of your navbar */}      
+    //   <nav className="fixed inset-x-0 top-0 z-50 bg-white shadow-sm dark:bg-gray-950/90">
+      
+    //     <div className="w-full max-w-7xl mx-auto px-4">
+    //       <div className="flex justify-between h-14 items-center">
+    //         <Link href="/" className="flex items-center" prefetch={false}>
+    //           <MountainIcon className="h-6 w-6" />
+    //           <span className="sr-only">Acme Inc</span>
+    //         </Link>
+    //         <nav className="hidden md:flex gap-4">
+    //           <Link
+    //             href="/"
+    //             className="font-medium flex items-center text-sm transition-colors hover:underline"
+    //             prefetch={false}
+    //           >
+    //             Home
+    //           </Link>
+    //           <Link
+    //             href="/account"
+    //             className="font-medium flex items-center text-sm transition-colors hover:underline"
+    //             prefetch={false}
+    //           >
+    //             Account
+    //           </Link>
+    //         </nav>
+    //         <div className="flex items-center gap-4">
+    //           {!data?.user ? (
+    //             <>
+    //         <Link href="/login">
+    //           <Button variant="outline" size="sm">
+    //           Sign in
+    //         </Button>
+    //       </Link>
+    //       <Link href="/register">
+    //         <Button size="sm">Sign up</Button>
+    //       </Link>
+    //             </>
+    //           ) : (
+    //             <>
+    //               <DropdownMenu>
+    //         <DropdownMenuTrigger asChild>
+    //           <Button
+    //             variant="outline"
+    //             size="icon"
+    //             className="overflow-hidden rounded-full"
+    //           >
+    //           {avatarUrl ? (
+    //             <Avatar
+    //               avatarUrl={avatarUrl}
+    //             />
+    //           ) : (
+    //             // <div className="avatar no-image" style={{ height: 36, width: 36 }} />
+    //             <Image
+    //               src="/public/placeholder-user.jpg"
+    //               width={36}
+    //               height={36}
+    //               alt="Avatar"
+    //               className="overflow-hidden rounded-full"
+    //             />
+    //           )}
+    //           </Button>
+    //         </DropdownMenuTrigger>
+    //         <DropdownMenuContent align="end">
+    //           <DropdownMenuLabel>My Account</DropdownMenuLabel>
+    //           <DropdownMenuSeparator />
+    //           <DropdownMenuItem>Settings</DropdownMenuItem>
+    //           <DropdownMenuItem>Support</DropdownMenuItem>
+    //           <DropdownMenuSeparator />
+    //           <DropdownMenuItem>
+    //             <form action="/auth/signout" method="post">
+    //               <Button variant='ghost' type="submit">
+    //                 Sign out
+    //               </Button>
+    //             </form>
+    //                 </DropdownMenuItem>
+    //         </DropdownMenuContent>
+    //       </DropdownMenu>
+    //             </>
+    //           )}
+    //         </div>
+    //       </div>
+    //     </div>
+    //   </nav>
+    //   <AppRoot>
+    //     {children}
+    //   </AppRoot>
+    //   </body>
+    //   </AppRoot>
+    // </html>
+    <AppRoot>
+      <body>
+      {children}
       </body>
-    </html>
+    </AppRoot>
   );
 }
 
