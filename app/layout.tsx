@@ -129,25 +129,8 @@ export default async function RootLayout({
         {children}
       </body>
     </html>
-    
   );
 }
-
-// export default function RootLayout({ children }: RootLayoutProps) {
-//   return (
-//     <html lang="en" suppressHydrationWarning>
-//       <head />
-//       <body
-//         className={cn(
-//           "min-h-screen bg-background font-sans antialiased",
-//           fontSans.variable
-//         )}
-//       >
-//         ...
-//       </body>
-//     </html>
-//   )
-// }
 
 
 function MountainIcon(props: any) {
