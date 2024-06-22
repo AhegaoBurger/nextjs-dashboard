@@ -17,6 +17,7 @@ import {
 import Image from "next/image"
 // import React, { useEffect, useState, useCallback } from 'react'
 import Avatar from './(components)/Avatar'
+import Script from 'next/script';
 
 // Import the necessary styles globally
 import '@telegram-apps/telegram-ui/dist/styles.css';
@@ -54,7 +55,7 @@ export default async function RootLayout({
   return (
     <html className='flex gap-2' lang="en">
       <head >
-        <script src="https://telegram.org/js/telegram-web-app.js"></script>
+        <Script src="https://telegram.org/js/telegram-web-app.js"></Script>
       </head>
       <body className={`${inter.className} antialiased`} style={{ paddingTop: '3.5rem' }}> {/* Adjust paddingTop to the height of your navbar */}      
       <nav className="fixed inset-x-0 top-0 z-50 bg-white shadow-sm dark:bg-gray-950/90">
