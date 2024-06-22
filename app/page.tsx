@@ -6,44 +6,14 @@ import { lusitana } from '@/app/ui/fonts';
 import Image from 'next/image';
 import { CirclePlus, CircleX, ChevronRight } from 'lucide-react';
 
-// Import components from the library
-import { AppRoot, Cell, List, Section, Tappable, Badge, Avatar, Button } from '@telegram-apps/telegram-ui';
-
-// Example data for rendering list cells
-const cellsTexts = ['Chat Settings', 'Data and Storage', 'Devices'];
+function onTelegramAuth(user: any) {
+  alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
+}
 
 export default function Page() {
   return (
     <div>
-      <Cell
-        className='rounded-md'
-        after={<Button size='s' after={<ChevronRight />}>Free</Button>}
-        before={<Avatar size={48} />}
-        description=""
-        hint=""
-        interactiveAnimation="opacity"
-        subhead=""
-        subtitle=""
-        titleBadge={<ChevronRight />}
-      >
-        Artur
-      </Cell>
-    {/* <List>
-      <Section header="Header for the section" footer="Footer for the section">
-        {cellsTexts.map((cellText, index) => (
-          <Cell key={index}>
-            {cellText}
-          </Cell>
-        ))}
-      </Section>
-    </List> */}
-    <Button
-      className='rounded'
-      before={<CirclePlus />}
-      mode="filled"
-      size="s"
-      
-    />
+     
     </div>
   );
 }
