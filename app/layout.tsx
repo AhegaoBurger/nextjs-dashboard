@@ -19,19 +19,6 @@ import Image from "next/image"
 import Avatar from './(components)/Avatar'
 import Script from 'next/script';
 
-// Import the necessary styles globally
-import '@telegram-apps/telegram-ui/dist/styles.css';
-
-// Import components from the library
-import { AppRoot, Cell, List, Section, Tappable, Badge } from '@telegram-apps/telegram-ui';
-
-// Example data for rendering list cells
-const cellsTexts = ['Chat Settings', 'Data and Storage', 'Devices'];
-
-const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-})
 
 export default async function RootLayout({
   children,
@@ -52,10 +39,16 @@ export default async function RootLayout({
 
 	const avatarUrl = userProfilePicUrl.data?.avatar_url
 
+  // const { telegramUser, webApp } = useTelegram();
+  // console.log(user);
+
   return (
     <html className='flex gap-2' lang="en">
       <head >
         <Script src="https://telegram.org/js/telegram-web-app.js"></Script>
+        <Script>
+          
+        </Script>
       </head>
       <body className={`${inter.className} antialiased`} style={{ paddingTop: '3.5rem' }}> {/* Adjust paddingTop to the height of your navbar */}      
       <nav className="fixed inset-x-0 top-0 z-50 bg-white shadow-sm dark:bg-gray-950/90">
