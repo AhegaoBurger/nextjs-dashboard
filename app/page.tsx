@@ -21,7 +21,13 @@ export default function Page() {
 
   return (
     <div>
-     
+      {telegramUser ? (
+        telegramUser
+      ) : (
+        <div>
+          Hi
+        </div>
+      )}
     </div>
   );
 }
