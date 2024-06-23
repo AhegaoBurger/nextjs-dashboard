@@ -22,7 +22,9 @@
     "@tailwindcss/forms": "^0.5.7",
     "@telegram-apps/telegram-ui": "^2.1.4",
     "@twa-dev/sdk": "^7.0.0",
+    "@twa-dev/types": "^7.0.0",
     "@types/node": "20.5.7",
+    "@types/telegram-web-app": "^7.2.1",
     "@vercel/postgres": "^0.5.0",
     "autoprefixer": "10.4.15",
     "bcrypt": "^5.1.1",
@@ -39,6 +41,7 @@
     "tailwind-merge": "^2.3.0",
     "tailwindcss": "3.3.3",
     "tailwindcss-animate": "^1.0.7",
+    "telegram-webapps-types": "^1.0.5",
     "typescript": "5.2.2",
     "zod": "^3.23.8"
   },
