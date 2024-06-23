@@ -10,7 +10,7 @@ export default async function Account() {
   } = await supabase.auth.getUser()
 
   return (
-	<main>
+	<main className='flex '>
 		<AccountForm user={user} />
 	</main>
   )
