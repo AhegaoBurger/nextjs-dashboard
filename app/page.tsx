@@ -7,6 +7,7 @@ import { lusitana } from '@/app/ui/fonts';
 import Image from 'next/image';
 import { CirclePlus, CircleX, ChevronRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { User, Contact, FetchContactsResponse } from '@/types';
 
 import useTelegramInitData from '@/lib/useTelegramInitData'
 
@@ -14,15 +15,9 @@ import useTelegramInitData from '@/lib/useTelegramInitData'
 import '@telegram-apps/telegram-ui/dist/styles.css';
 
 // Import components from the library
-import { AppRoot, Cell, List, Section, Avatar } from '@telegram-apps/telegram-ui';
+import { AppRoot, Cell, List, Section, Avatar, Button } from '@telegram-apps/telegram-ui';
 
-interface User {
-  id: number;
-  first_name: string;
-  last_name?: string;
-  username?: string;
-  is_bot: boolean;
-}
+import { WebApp } from "@grammyjs/web-app";
 
 const fetchUserData = async () => {
   const response = await fetch('/api/tele-user-info');
@@ -34,11 +29,56 @@ const fetchUserData = async () => {
   return data;
 };
 
+const createInviteLink = async (): Promise<string> => {
+  const response = await fetch('/api/create-invite-link', { method: 'POST' });
+  if (!response.ok) {
+    throw new Error('Failed to create invite link');
+  }
+  const data = await response.json();
+  return data.inviteLink;
+};
+
+const getBotUsername = async (): Promise<string> => {
+  const response = await fetch('/api/get-bot-info');
+  if (!response.ok) {
+    throw new Error('Failed to get bot info');
+  }
+  const data = await response.json();
+  return data.username;
+};
+
+
 export default function Page() {
   const initData = useTelegramInitData();
 
   const [user, setUser] = useState<User | null>(null);
+  const [contacts, setContacts] = useState<Contact[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [tg, setTg] = useState<any>(null);
+  const [botUsername, setBotUsername] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.Telegram) {
+      setTg(window.Telegram.WebApp);
+    }
+
+    getBotUsername().then(setBotUsername)
+    .then(data => console.log('botData', data))
+    .catch(console.error);
+  }, []);
+
+  const handleAddToGroup = () => {
+    if (!tg || !botUsername) {
+      setError('Unable to add bot to group at this time');
+      return;
+    }
+
+    // This URL will open the "Add to Group" dialog
+    const url = `https://telegram.me/${botUsername}&startgroup=true`;
+    // tg.openTelegramLink(url);
+    window.Telegram.WebApp.openTelegramLink(url);
+  };
 
   useEffect(() => {
     fetchUserData()
@@ -52,6 +92,14 @@ export default function Page() {
 
   if (!user) {
     return <p>Loading...</p>;
+  }
+
+  function closeWebApp() {
+    if (window.Telegram && window.Telegram.WebApp) {
+      window.Telegram.WebApp.close();
+    } else {
+      console.error('Telegram WebApp is not available');
+    }
   }
 
   return (
@@ -76,6 +124,12 @@ export default function Page() {
       )}
      <h1>initData</h1>
       <pre>{JSON.stringify(initData, null, 2)}</pre>
+      <Button onClick={handleAddToGroup} disabled={!botUsername}>
+          Add Bot to Group
+        </Button>
+        <Button onClick={closeWebApp}>
+          Close WebApp
+        </Button>
       </AppRoot>
     </div>
   );
